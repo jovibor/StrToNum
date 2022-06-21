@@ -10,7 +10,7 @@ It is completely based on the Microsoft's `std::from_chars` implementation from 
 
 `StrToNum` features `std::(w)string_view` as an input, so you are no longer obliged to have only null-terminated strings, which is mandatory in all `std::strto*` functions family.  
 
-`StrToNum` also recognizes `0x` and `0X` prefixes as hex strings, when iBase is `0` or `16`, which `std::from_chars` doesn't.
+`StrToNum` also recognizes `0x` and `0X` prefixes as hex strings, when `iBase` is `0` or `16`, which `std::from_chars` doesn't.
 
 As a return type `StrToNum` uses either `std::optional` (by default) or a newish and very convenient `std::expected` (through **/std:c++latest**), which either holds converted number or a `from_chars_result` struct, in case of converting error. Both these types are very similar.  
 To use the `std::expected` version put the `#define STN_USE_EXPECTED` line before `#include "StrToNum.h"`
@@ -41,43 +41,43 @@ Basically `StrToNum` is a thin wrapper over the `std::from_chars` machinery, wit
 ### Aliases
 `StrToNum` is the main templated method which is very easy to use. But there are also a predefined wrappers for convenience, for all integral and floating types:
 ```cpp
-[[nodiscard]] auto StrToChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToChar(std::string_view str, int iBase = 0)noexcept
 ->std::expected<char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] auto StrToUChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToUChar(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] auto StrToShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToShort(std::string_view str, int iBase = 0)noexcept
 ->std::expected<short, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] auto StrToUShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToUShort(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned short, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToInt(std::string_view str, int iBase = 0)noexcept
 ->std::expected<int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToUInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToUInt(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToLL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToLL(std::string_view str, int iBase = 0)noexcept
 ->std::expected<long long, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToULL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline auto StrToULL(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned long long, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToFloat(std::string_view str, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] inline auto StrToFloat(std::string_view str, chars_format fmt = chars_format::general)noexcept
 ->std::expected<float, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] auto StrToDouble(std::string_view str, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] inline auto StrToDouble(std::string_view str, chars_format fmt = chars_format::general)noexcept
 ->std::expected<double, from_chars_result<char>>;
 ```
 
