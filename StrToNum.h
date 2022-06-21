@@ -1716,102 +1716,102 @@ namespace stn //String to Num.
 
 	//Aliases with predefined types, for convenience.
 
-	[[nodiscard]] auto StrToChar(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToChar(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(char, char) {
 		return StrToNum<char>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToChar(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToChar(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(char, wchar_t) {
 		return StrToNum<char>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToUChar(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUChar(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned char, char) {
 		return StrToNum<unsigned char>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToUChar(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUChar(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned char, wchar_t) {
 		return StrToNum<unsigned char>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToShort(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToShort(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(short, char) {
 		return StrToNum<short>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToShort(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToShort(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(short, wchar_t) {
 		return StrToNum<short>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToUShort(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUShort(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned short, char) {
 		return StrToNum<unsigned short>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToUShort(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUShort(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned short, wchar_t) {
 		return StrToNum<unsigned short>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToInt(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToInt(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(int, char) {
 		return StrToNum<int>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToInt(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToInt(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(int, wchar_t) {
 		return StrToNum<int>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToUInt(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUInt(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned int, char) {
 		return StrToNum<unsigned int>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToUInt(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToUInt(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned int, wchar_t) {
 		return StrToNum<unsigned int>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToLL(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToLL(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(long long, char) {
 		return StrToNum<long long>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToLL(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToLL(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(long long, wchar_t) {
 		return StrToNum<long long>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToULL(std::string_view str, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToULL(std::string_view str, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned long long, char) {
 		return StrToNum<unsigned long long>(str, iBase);
 	}
 
-	[[nodiscard]] auto StrToULL(std::wstring_view wstr, int iBase = 0)noexcept
+	[[nodiscard]] inline auto StrToULL(std::wstring_view wstr, int iBase = 0)noexcept
 		->STN_RETURN_TYPE(unsigned long long, wchar_t) {
 		return StrToNum<unsigned long long>(wstr, iBase);
 	}
 
-	[[nodiscard]] auto StrToFloat(std::string_view str, chars_format fmt = chars_format::general)noexcept
+	[[nodiscard]] inline auto StrToFloat(std::string_view str, chars_format fmt = chars_format::general)noexcept
 		->STN_RETURN_TYPE(float, char) {
 		return StrToNum<float>(str, fmt);
 	}
 
-	[[nodiscard]] auto StrToFloat(std::wstring_view wstr, chars_format fmt = chars_format::general)noexcept
+	[[nodiscard]] inline auto StrToFloat(std::wstring_view wstr, chars_format fmt = chars_format::general)noexcept
 		->STN_RETURN_TYPE(float, wchar_t) {
 		return StrToNum<float>(wstr, fmt);
 	}
 
-	[[nodiscard]] auto StrToDouble(std::string_view str, chars_format fmt = chars_format::general)noexcept
+	[[nodiscard]] inline auto StrToDouble(std::string_view str, chars_format fmt = chars_format::general)noexcept
 		->STN_RETURN_TYPE(double, char) {
 		return StrToNum<double>(str, fmt);
 	}
 
-	[[nodiscard]] auto StrToDouble(std::wstring_view wstr, chars_format fmt = chars_format::general)noexcept
+	[[nodiscard]] inline auto StrToDouble(std::wstring_view wstr, chars_format fmt = chars_format::general)noexcept
 		->STN_RETURN_TYPE(double, wchar_t) {
 		return StrToNum<double>(wstr, fmt);
 	}
