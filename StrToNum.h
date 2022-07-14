@@ -1,6 +1,8 @@
-//SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
-//Copyright © 2022 Jovibor https://github.com/jovibor/
-//StrToNum library, https://github.com/jovibor/StrToNum
+/**********************************************************
+* SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception *
+* Copyright Â© 2022 Jovibor https://github.com/jovibor/    *
+* StrToNum library, https://github.com/jovibor/StrToNum   *
+**********************************************************/
 #pragma once
 #include <cassert>
 #include <string_view>
@@ -16,7 +18,7 @@
 #endif
 
 
-namespace stn //String to Num.
+namespace HEXCTRL::stn //String to Num.
 {
 	enum class errc { // names for generic error codes
 		invalid_argument = 22,   // EINVAL
@@ -155,7 +157,7 @@ namespace stn //String to Num.
 
 			_Raw_value = static_cast<_RawTy>(_Value); // implementation-defined for negative, N4713 7.8 [conv.integral]/3
 
-			return { _Next, errc{} };
+			return { _Next, errc { } };
 		}
 
 		template <class _FloatingType>
@@ -244,7 +246,7 @@ namespace stn //String to Num.
 		};
 
 		[[nodiscard]] inline _Big_integer_flt _Make_big_integer_flt_one() noexcept {
-			_Big_integer_flt _Xval {};
+			_Big_integer_flt _Xval { };
 			_Xval._Mydata[0] = 1;
 			_Xval._Myused = 1;
 			return _Xval;
@@ -473,7 +475,7 @@ namespace stn //String to Num.
 			const uint32_t _Cu1 = _Multiplier_is_shorter ? _Multiplier._Myused : _Multiplicand._Myused;
 			const uint32_t _Cu2 = _Multiplier_is_shorter ? _Multiplicand._Myused : _Multiplier._Myused;
 
-			_Big_integer_flt _Result {};
+			_Big_integer_flt _Result { };
 			for (uint32_t _Iu1 = 0; _Iu1 != _Cu1; ++_Iu1) {
 				const uint32_t _U_cur = _Rgu1[_Iu1];
 				if (_U_cur == 0) {
@@ -598,19 +600,19 @@ namespace stn //String to Num.
 				uint8_t _Size; // The number of elements present for this power
 			};
 
-			static constexpr _Unpack_index _Large_power_indices[] = { {0, 0, 2}, {2, 0, 3}, {5, 0, 4}, {9, 1, 4}, {13, 1, 5},
-				{18, 1, 6}, {24, 2, 6}, {30, 2, 7}, {37, 2, 8}, {45, 3, 8}, {53, 3, 9}, {62, 3, 10}, {72, 4, 10}, {82, 4, 11},
-				{93, 4, 12}, {105, 5, 12}, {117, 5, 13}, {130, 5, 14}, {144, 5, 15}, {159, 6, 15}, {174, 6, 16}, {190, 6, 17},
-				{207, 7, 17}, {224, 7, 18}, {242, 7, 19}, {261, 8, 19}, {280, 8, 21}, {301, 8, 22}, {323, 9, 22}, {345, 9, 23},
-				{368, 9, 24}, {392, 10, 24}, {416, 10, 25}, {441, 10, 26}, {467, 10, 27}, {494, 11, 27}, {521, 11, 28},
-				{549, 11, 29} };
+			static constexpr _Unpack_index _Large_power_indices[] = { { 0, 0, 2 }, { 2, 0, 3 }, { 5, 0, 4 }, { 9, 1, 4 }, { 13, 1, 5 },
+				{ 18, 1, 6 }, { 24, 2, 6 }, { 30, 2, 7 }, { 37, 2, 8 }, { 45, 3, 8 }, { 53, 3, 9 }, { 62, 3, 10 }, { 72, 4, 10 }, { 82, 4, 11 },
+				{ 93, 4, 12 }, { 105, 5, 12 }, { 117, 5, 13 }, { 130, 5, 14 }, { 144, 5, 15 }, { 159, 6, 15 }, { 174, 6, 16 }, { 190, 6, 17 },
+				{ 207, 7, 17 }, { 224, 7, 18 }, { 242, 7, 19 }, { 261, 8, 19 }, { 280, 8, 21 }, { 301, 8, 22 }, { 323, 9, 22 }, { 345, 9, 23 },
+				{ 368, 9, 24 }, { 392, 10, 24 }, { 416, 10, 25 }, { 441, 10, 26 }, { 467, 10, 27 }, { 494, 11, 27 }, { 521, 11, 28 },
+				{ 549, 11, 29 } };
 
 			for (uint32_t _Large_power = _Power / 10; _Large_power != 0;) {
 				const uint32_t _Current_power =
 					(_STD min)(_Large_power, static_cast<uint32_t>(_STD size(_Large_power_indices)));
 
 				const _Unpack_index& _Index = _Large_power_indices[_Current_power - 1];
-				_Big_integer_flt _Multiplier {};
+				_Big_integer_flt _Multiplier { };
 				_Multiplier._Myused = static_cast<uint32_t>(_Index._Size + _Index._Zeroes);
 
 				const uint32_t* const _Source = _Large_power_data + _Index._Offset;
@@ -953,7 +955,7 @@ namespace stn //String to Num.
 
 			uint64_t _Mantissa = _Initial_mantissa;
 			int32_t _Exponent = _Normal_exponent;
-			errc _Error_code {};
+			errc _Error_code { };
 
 			if (_Normal_exponent < _Traits::_Minimum_binary_exponent) {
 				// The exponent is too small to be represented by the floating-point type as a normal value, but it may be
@@ -1149,7 +1151,7 @@ namespace stn //String to Num.
 			const uint32_t _Fractional_digits_present = static_cast<uint32_t>(_Fractional_last - _Fractional_first);
 
 			// First, we accumulate the integer part of the mantissa into a _Big_integer_flt:
-			_Big_integer_flt _Integer_value {};
+			_Big_integer_flt _Integer_value { };
 			_Accumulate_decimal_digits_into_big_integer_flt(_Integer_first, _Integer_last, _Integer_value);
 
 			if (_Integer_digits_missing > 0) {
@@ -1177,7 +1179,7 @@ namespace stn //String to Num.
 			// the fractional part into an actual fraction N/M, where the numerator N is computed from the digits of the
 			// fractional part, and the denominator M is computed as the power of 10 such that N/M is equal to the value
 			// of the fractional part of the mantissa.
-			_Big_integer_flt _Fractional_numerator {};
+			_Big_integer_flt _Fractional_numerator { };
 			_Accumulate_decimal_digits_into_big_integer_flt(_Fractional_first, _Fractional_last, _Fractional_numerator);
 
 			const uint32_t _Fractional_denominator_exponent =
@@ -1455,7 +1457,7 @@ namespace stn //String to Num.
 			if (_Mantissa_it == _Mantissa_first) {
 				assert(_Has_zero_tail);
 				_Assemble_floating_point_zero(_Fp_string._Myis_negative, _Value);
-				return { _Next, errc{} };
+				return { _Next, errc { } };
 			}
 
 			// Before we adjust the exponent, handle the case where we detected a wildly
@@ -1534,7 +1536,7 @@ namespace stn //String to Num.
 
 			_Assemble_floating_point_infinity(_Minus_sign, _Value);
 
-			return { _Next, errc{} };
+			return { _Next, errc { } };
 		}
 
 		template <class _Floating, class CharT>
@@ -1602,7 +1604,7 @@ namespace stn //String to Num.
 
 			_Value = std::bit_cast<_Floating>(_Uint_value);
 
-			return { _Next, errc{} };
+			return { _Next, errc { } };
 		}
 
 		template <class _Floating, class CharT>

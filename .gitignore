@@ -2,5 +2,6 @@
 !*/
 
 !.gitignore
+!.editorconfig
 !StrToNum.h
 !README.md
