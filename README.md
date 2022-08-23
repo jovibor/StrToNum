@@ -41,35 +41,35 @@ Basically `StrToNum` is a thin wrapper over the `std::from_chars` machinery, wit
 ### Aliases
 `StrToNum` is the main templated method which is very easy to use. But there are also a predefined wrappers for convenience, for all integral and floating types:
 ```cpp
-[[nodiscard]] inline auto StrToChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToChar(std::string_view str, int iBase = 0)noexcept
 ->std::expected<char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline auto StrToUChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUChar(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline auto StrToShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToShort(std::string_view str, int iBase = 0)noexcept
 ->std::expected<short, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline auto StrToUShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUShort(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned short, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToInt(std::string_view str, int iBase = 0)noexcept
 ->std::expected<int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToUInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUInt(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToLL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToLL(std::string_view str, int iBase = 0)noexcept
 ->std::expected<long long, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToULL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToULL(std::string_view str, int iBase = 0)noexcept
 ->std::expected<unsigned long long, from_chars_result<char>>;
 ```
 ```cpp
@@ -92,20 +92,20 @@ int main()
     constexpr const char* const str = "1234567890";
     constexpr const wchar_t* const wstr = L"1234567890";
 
-    const auto Int1 = stn::StrToInt(std::string_view(str).substr(0, 5));
-    assert(Int1 == 12345);
+    constexpr auto Int1 = stn::StrToInt(std::string_view(str).substr(0, 5));
+    static_assert(Int1 == 12345);
     std::cout << "Int1 = " << Int1.value_or(-1) << "\n";
 
-    const auto Int2 = stn::StrToInt(std::wstring_view(wstr).substr(5));
-    assert(Int2 == 67890);
+    constexpr auto Int2 = stn::StrToInt(std::wstring_view(wstr).substr(5));
+    static_assert(Int2 == 67890);
     std::cout << "Int2 = " << Int2.value_or(-1) << "\n";
 
-    const auto LL1 = stn::StrToLL("0xABCDEF");
-    assert(LL1 == 0xABCDEF);
+    constexpr auto LL1 = stn::StrToLL("0xABCDEF");
+    static_assert(LL1 == 0xABCDEF);
     std::cout << std::hex << "LL1 = " << LL1.value_or(-1) << "\n";
 
-    const auto LL2 = stn::StrToLL(L"0xFEDCBA");
-    assert(LL2 == 0xFEDCBA);
+    constexpr auto LL2 = stn::StrToLL(L"0xFEDCBA");
+    static_assert(LL2 == 0xFEDCBA);
     std::cout << std::hex << "LL2 = " << LL2.value_or(-1) << "\n";
 
     const auto Dbl1 = stn::StrToDouble("3.1415926535");
