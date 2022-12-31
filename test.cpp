@@ -36,4 +36,8 @@ int main()
 	const auto Dbl2 = stn::StrToDouble(L"-987.654");
 	assert(Dbl2 == -987.654);
 	std::cout << std::fixed << std::setprecision(3) << "Dbl2 = " << Dbl2.value_or(-1.) << "\n";
+
+	const auto flHex = stn::StrToFloat(L"0x1.Fp-2", stn::chars_format::hex);
+	assert(flHex == 0x1.Fp-2);
+	std::cout << std::fixed << std::setprecision(6) << "flHex = " << flHex.value_or(-1.) << "\n";
 }
