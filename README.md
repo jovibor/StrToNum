@@ -17,22 +17,22 @@ To use the `std::expected` version put the `#define STN_USE_EXPECTED` line befor
 
 ```cpp
 template<typename IntegralT> requires std::is_integral_v<IntegralT>
-[[nodiscard]] auto StrToNum(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] auto StrToNum(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<IntegralT, from_chars_result<char>>
 ```
 ```cpp
 template<typename IntegralT> requires std::is_integral_v<IntegralT>
-[[nodiscard]] auto StrToNum(std::wstring_view wstr, int iBase = 0)noexcept
+[[nodiscard]] auto StrToNum(std::wstring_view wsv, int iBase = 0)noexcept
 ->std::expected<IntegralT, from_chars_result<wchar_t>>
 ```
 ```cpp
 template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
-[[nodiscard]] auto StrToNum(std::string_view str, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] auto StrToNum(std::string_view sv, chars_format fmt = chars_format::general)noexcept
 ->std::expected<FloatingT, from_chars_result<char>>
 ```
 ```cpp
 template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
-[[nodiscard]] auto StrToNum(std::wstring_view wstr, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] auto StrToNum(std::wstring_view wsv, chars_format fmt = chars_format::general)noexcept
 ->std::expected<FloatingT, from_chars_result<wchar_t>>
 ```
 
@@ -41,43 +41,43 @@ Basically `StrToNum` is a thin wrapper over the `std::from_chars` machinery, wit
 ### Aliases
 `StrToNum` is the main templated method which is very easy to use. But there are also a predefined wrappers for convenience, for all integral and floating types:
 ```cpp
-[[nodiscard]] inline constexpr auto StrToChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToChar(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline constexpr auto StrToUChar(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUChar(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<unsigned char, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline constexpr auto StrToShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToShort(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<short, from_chars_result<char>>;
 ```
 ```cpp		
-[[nodiscard]] inline constexpr auto StrToUShort(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUShort(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<unsigned short, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline constexpr auto StrToInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToInt(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline constexpr auto StrToUInt(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToUInt(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<unsigned int, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline constexpr auto StrToLL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToLL(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<long long, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline constexpr auto StrToULL(std::string_view str, int iBase = 0)noexcept
+[[nodiscard]] inline constexpr auto StrToULL(std::string_view sv, int iBase = 0)noexcept
 ->std::expected<unsigned long long, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToFloat(std::string_view str, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] inline auto StrToFloat(std::string_view sv, chars_format fmt = chars_format::general)noexcept
 ->std::expected<float, from_chars_result<char>>;
 ```
 ```cpp
-[[nodiscard]] inline auto StrToDouble(std::string_view str, chars_format fmt = chars_format::general)noexcept
+[[nodiscard]] inline auto StrToDouble(std::string_view sv, chars_format fmt = chars_format::general)noexcept
 ->std::expected<double, from_chars_result<char>>;
 ```
 
@@ -115,5 +115,9 @@ int main()
     const auto Dbl2 = stn::StrToDouble(L"-987.654");
     assert(Dbl2 == -987.654);
     std::cout << std::fixed << std::setprecision(3) << "Dbl2 = " << Dbl2.value_or(-1.) << "\n";
+    
+    const auto flHex = stn::StrToFloat(L"0x1.Fp-2", stn::chars_format::hex);
+    assert(flHex == 0x1.Fp-2);
+    std::cout << std::fixed << std::setprecision(6) << "flHex = " << flHex.value_or(-1.) << "\n";
 }
 ```
