@@ -6,8 +6,8 @@
 
 int main()
 {
-	constexpr const char* const str = "1234567890";
-	constexpr const wchar_t* const wstr = L"1234567890";
+	constexpr auto str = "1234567890";
+	constexpr auto wstr = L"1234567890";
 
 	constexpr auto Int1 = stn::StrToInt(std::string_view(str).substr(0, 5));
 	static_assert(Int1 == 12345);
@@ -29,15 +29,15 @@ int main()
 	static_assert(LL3 == -0xACE987);
 	std::cout << std::dec << "LL3 = " << LL3.value_or(-1) << "\n";
 
-	const auto Dbl1 = stn::StrToDouble("3.1415926535");
-	assert(Dbl1 == 3.1415926535);
-	std::cout << std::fixed << std::setprecision(10) << "Dbl1 = " << Dbl1.value_or(-1.) << "\n";
+	constexpr auto Dbl1 = stn::StrToDouble("3.14159265358979");
+	static_assert(Dbl1 == 3.14159265358979);
+	std::cout << std::fixed << std::setprecision(14) << "Dbl1 = " << Dbl1.value_or(-1.) << "\n";
 
-	const auto Dbl2 = stn::StrToDouble(L"-987.654");
-	assert(Dbl2 == -987.654);
-	std::cout << std::fixed << std::setprecision(3) << "Dbl2 = " << Dbl2.value_or(-1.) << "\n";
+	constexpr auto Dbl2 = stn::StrToDouble(L"-987.654321");
+	static_assert(Dbl2 == -987.654321);
+	std::cout << std::fixed << std::setprecision(6) << "Dbl2 = " << Dbl2.value_or(-1.) << "\n";
 
-	const auto flHex = stn::StrToFloat(L"0x1.Fp-2", stn::chars_format::hex);
-	assert(flHex == 0x1.Fp-2);
+	constexpr auto flHex = stn::StrToFloat(L"0x1.Fp-2", stn::chars_format::hex);
+	static_assert(flHex == 0x1.Fp-2);
 	std::cout << std::fixed << std::setprecision(6) << "flHex = " << flHex.value_or(-1.) << "\n";
 }
