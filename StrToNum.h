@@ -1377,6 +1377,8 @@ namespace stn //String to Num.
 			}
 			const auto* const Leading_zero_end = Next;
 
+			bool Has_zero_tail = true;
+
 			// Scan the integer part of the mantissa:
 			for (; Next != Last; ++Next) {
 				const unsigned char Digit_value = Digit_from_char(*Next);
@@ -1388,19 +1390,18 @@ namespace stn //String to Num.
 				if (Mantissa_it != Mantissa_last) {
 					*Mantissa_it++ = Digit_value;
 				}
+				else {
+					Has_zero_tail = Has_zero_tail && Digit_value == 0;
+				}
 			}
 			const auto* const Whole_end = Next;
-
-			// Defend against Exponent_adjustment integer overflow. (These values don't need to be strict.)
-			constexpr ptrdiff_t Maximum_adjustment = 1'000'000;
-			constexpr ptrdiff_t Minimum_adjustment = -1'000'000;
 
 			// The exponent adjustment holds the number of digits in the mantissa buffer that appeared before the radix point.
 			// It can be negative, and leading zeroes in the integer part are ignored. Examples:
 			// For "03333.111", it is 4.
 			// For "00000.111", it is 0.
 			// For "00000.001", it is -2.
-			int Exponent_adjustment = static_cast<int>((std::min)(Whole_end - Leading_zero_end, Maximum_adjustment));
+			ptrdiff_t Exponent_adjustment = Whole_end - Leading_zero_end;
 
 			// [Whole_end, Dot_end) will contain 0 or 1 '.' characters
 			if (Next != Last && *Next == '.') {
@@ -1416,12 +1417,10 @@ namespace stn //String to Num.
 				for (; Next != Last && *Next == '0'; ++Next) {
 				}
 
-				Exponent_adjustment = static_cast<int>((std::max)(Dot_end - Next, Minimum_adjustment));
+				Exponent_adjustment = Dot_end - Next;
 			}
 
 			// Scan the fractional part of the mantissa:
-			bool Has_zero_tail = true;
-
 			for (; Next != Last; ++Next) {
 				const unsigned char Digit_value = Digit_from_char(*Next);
 
@@ -1446,7 +1445,8 @@ namespace stn //String to Num.
 			const char Exponent_prefix { Is_hexadecimal ? 'p' : 'e' };
 
 			bool Exponent_is_negative = false;
-			int Exponent = 0;
+			bool Exp_abs_too_large = false;
+			ptrdiff_t Exponent = 0;
 
 			constexpr int Maximum_temporary_decimal_exponent = 5200;
 			constexpr int Minimum_temporary_decimal_exponent = -5200;
@@ -1471,8 +1471,11 @@ namespace stn //String to Num.
 
 					// found decimal digit
 
-					if (Exponent <= Maximum_temporary_decimal_exponent) {
+					if (Exponent < PTRDIFF_MAX / 10 || (Exponent == PTRDIFF_MAX / 10 && Digit_value <= PTRDIFF_MAX % 10)) {
 						Exponent = Exponent * 10 + Digit_value;
+					}
+					else {
+						Exp_abs_too_large = true;
 					}
 
 					++Unread;
@@ -1509,22 +1512,62 @@ namespace stn //String to Num.
 				return { Next, errc { } };
 			}
 
-			// Before we adjust the exponent, handle the case where we detected a wildly
-			// out of range exponent during parsing and clamped the value:
-			if (Exponent > Maximum_temporary_decimal_exponent) {
-				Assemble_floating_point_infinity(Fp_string.Myis_negative, Value);
-				return { Next, errc::result_out_of_range }; // Overflow example: "1e+9999"
+			// Handle exponent of an overly large absolute value.
+			if (Exp_abs_too_large) {
+				if (Exponent > 0) {
+					Assemble_floating_point_infinity(Fp_string.Myis_negative, Value);
+					return { Next, errc::result_out_of_range };
+				}
+				else {
+					Assemble_floating_point_zero(Fp_string.Myis_negative, Value);
+					return { Next, errc::result_out_of_range };
+				}
 			}
 
-			if (Exponent < Minimum_temporary_decimal_exponent) {
-				Assemble_floating_point_zero(Fp_string.Myis_negative, Value);
-				return { Next, errc::result_out_of_range }; // Underflow example: "1e-9999"
+			// Adjust _Exponent and _Exponent_adjustment when they have different signedness to avoid overflow.
+			if (Exponent > 0 && Exponent_adjustment < 0) {
+				if (Is_hexadecimal) {
+					const ptrdiff_t Further_adjustment = (std::max)(-((Exponent - 1) / 4 + 1), Exponent_adjustment);
+					Exponent += Further_adjustment * 4;
+					Exponent_adjustment -= Further_adjustment;
+				}
+				else {
+					const ptrdiff_t Further_adjustment = (std::max)(-Exponent, Exponent_adjustment);
+					Exponent += Further_adjustment;
+					Exponent_adjustment -= Further_adjustment;
+				}
+			}
+			else if (Exponent < 0 && Exponent_adjustment > 0) {
+				if (Is_hexadecimal) {
+					const ptrdiff_t Further_adjustment = (std::min)((-Exponent - 1) / 4 + 1, Exponent_adjustment);
+					Exponent += Further_adjustment * 4;
+					Exponent_adjustment -= Further_adjustment;
+				}
+				else {
+					const ptrdiff_t Further_adjustment = (std::min)(-Exponent, Exponent_adjustment);
+					Exponent += Further_adjustment;
+					Exponent_adjustment -= Further_adjustment;
+				}
 			}
 
 			// In hexadecimal floating constants, the exponent is a base 2 exponent. The exponent adjustment computed during
 			// parsing has the same base as the mantissa (so, 16 for hexadecimal floating constants).
 			// We therefore need to scale the base 16 multiplier to base 2 by multiplying by log2(16):
 			const int Exponent_adjustment_multiplier { Is_hexadecimal ? 4 : 1 };
+
+			// And then _Exponent and _Exponent_adjustment are either both non-negative or both non-positive.
+			// So we can detect out-of-range cases directly.
+			if (Exponent > Maximum_temporary_decimal_exponent
+				|| Exponent_adjustment > Maximum_temporary_decimal_exponent / Exponent_adjustment_multiplier) {
+				Assemble_floating_point_infinity(Fp_string.Myis_negative, Value);
+				return { Next, errc::result_out_of_range }; // Overflow example: "1e+9999"
+			}
+
+			if (Exponent < Minimum_temporary_decimal_exponent
+				|| Exponent_adjustment < Minimum_temporary_decimal_exponent / Exponent_adjustment_multiplier) {
+				Assemble_floating_point_zero(Fp_string.Myis_negative, Value);
+				return { Next, errc::result_out_of_range }; // Underflow example: "1e-9999"
+			}
 
 			Exponent += Exponent_adjustment * Exponent_adjustment_multiplier;
 
@@ -1540,7 +1583,7 @@ namespace stn //String to Num.
 				return { Next, errc::result_out_of_range }; // Underflow example: "0.001e-5199"
 			}
 
-			Fp_string.Myexponent = Exponent;
+			Fp_string.Myexponent = static_cast<int32_t>(Exponent);
 			Fp_string.Mymantissa_count = static_cast<uint32_t>(Mantissa_it - Mantissa_first);
 
 			if (Is_hexadecimal) {
