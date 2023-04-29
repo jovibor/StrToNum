@@ -2,7 +2,7 @@
 #include <iostream>
 
 //#define STN_USE_EXPECTED
-#include "StrToNum.h"
+#include "../StrToNum/StrToNum.h"
 
 int main()
 {

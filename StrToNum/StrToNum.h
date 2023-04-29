@@ -1,8 +1,8 @@
-/**********************************************************
-* SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception *
-* Copyright © 2022 Jovibor https://github.com/jovibor/    *
-* StrToNum library, https://github.com/jovibor/StrToNum   *
-**********************************************************/
+/****************************************************************
+* SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception       *
+* Copyright © 2022-2023, Jovibor: https://github.com/jovibor/   *
+* StrToNum library, https://github.com/jovibor/StrToNum         *
+****************************************************************/
 #pragma once
 #include <algorithm>
 #include <cassert>
