@@ -4,9 +4,9 @@
 * [Example](#example)
 
 ### Introduction
-**StrToNum** is a header-only library for converting `char` and `wchar_t` strings to numbers. The library is fully `constexpr` which means that conversions can be done at compile time if string is a `constexpr` string.
+**StrToNum** is a header-only library for converting `char` and `wchar_t` strings to numbers. The library is fully `constexpr`, which means that conversions can be done at compile time if a converting string is a `constexpr` string.
 
-**StrToNum** is completely based on the Microsoft's `std::from_chars` implementation from the `<charconv>` standard header. The one significant difference though is that the ability to work with `wchar_t` type was added, because the C++ standard doesn't provide such functionality at the moment.  
+**StrToNum** is completely based on the Microsoft's `std::from_chars` implementation from the `<charconv>` standard header. The one significant difference though is the ability to work with `wchar_t` strings, because the C++ standard doesn't provide such functionality at the moment.  
 
 **StrToNum** features `std::(w)string_view` as an input, so you are no longer obliged to have only null-terminated strings, which is mandatory in all `std::strto*` functions family.  
 
@@ -36,7 +36,7 @@ template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
 ->std::expected<FloatingT, from_chars_result<wchar_t>>
 ```
 
-Basically **StrToNum** is a thin wrapper over the `std::from_chars` machinery, with the convenient interface and the ability to work with `wchar_t` strings. **Non-allocating, non-throwing, locale-independent**.
+Basically **StrToNum** is a thin wrapper over the `std::from_chars` machinery with the convenient interface and the ability to work with `wchar_t` strings. **Non-allocating, non-throwing, locale-independent**.
 
 ### Aliases
 `StrToNum` is the main templated method which is very easy to use. But there are also a predefined wrappers for convenience, for all integral and floating types:
