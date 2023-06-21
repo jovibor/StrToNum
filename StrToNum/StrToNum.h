@@ -38,6 +38,7 @@ namespace stn //String to Num.
 		const CharT* ptr;
 		errc ec;
 		[[nodiscard]] friend bool operator==(const from_chars_result&, const from_chars_result&) = default;
+		constexpr explicit operator bool() const noexcept { return ec == errc{}; }
 	};
 
 	namespace impl
