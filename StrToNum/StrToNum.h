@@ -5,6 +5,7 @@
 ****************************************************************/
 #pragma once
 #include <algorithm>
+#include <bit>
 #include <cassert>
 #include <string_view>
 #include <type_traits>
@@ -38,7 +39,7 @@ namespace stn //String to Num.
 		const CharT* ptr;
 		errc ec;
 		[[nodiscard]] friend bool operator==(const from_chars_result&, const from_chars_result&) = default;
-		constexpr explicit operator bool() const noexcept { return ec == errc{}; }
+		constexpr explicit operator bool() const noexcept { return ec == errc { }; }
 	};
 
 	namespace impl
@@ -245,7 +246,7 @@ namespace stn //String to Num.
 		};
 
 		template <>
-		struct Floating_type_traits<long double> : Floating_type_traits<double> {};
+		struct Floating_type_traits<long double> : Floating_type_traits<double> { };
 
 		struct Big_integer_flt {
 			constexpr Big_integer_flt() noexcept : Myused(0) {}
