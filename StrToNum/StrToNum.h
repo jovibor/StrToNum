@@ -7,21 +7,22 @@
 #include <algorithm>
 #include <bit>
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 #include <type_traits>
+
 #ifdef STN_USE_EXPECTED
 #include <expected>
 #define STN_RETURN_TYPE(NumT, CharT) std::expected<NumT, from_chars_result<CharT>>
-#define STN_RETURN_VALUE(x) std::unexpected(x);
+#define STN_RETURN_NULL(x) std::unexpected(x);
 #else
 #include <optional>
 #define STN_RETURN_TYPE(NumT, CharT) std::optional<NumT>
-#define STN_RETURN_VALUE(x) std::nullopt;
+#define STN_RETURN_NULL(x) std::nullopt;
 #endif
 
-
-namespace stn //String to Num.
-{
+namespace stn {
 	enum class errc { // names for generic error codes
 		invalid_argument = 22,   // EINVAL
 		result_out_of_range = 34 // ERANGE
@@ -42,8 +43,7 @@ namespace stn //String to Num.
 		constexpr explicit operator bool() const noexcept { return ec == errc { }; }
 	};
 
-	namespace impl
-	{
+	namespace impl {
 		inline constexpr unsigned char Digit_from_byte[] = { 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 			255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 			255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 255, 255,
@@ -1762,10 +1762,10 @@ namespace stn //String to Num.
 
 		IntegralT TData;
 		const auto result = impl::Integer_from_chars(sv.data(), sv.data() + sv.size(), TData, iBase);
-		if (result.ec == errc()) {
+		if (result) {
 			return TData;
 		}
-		return STN_RETURN_VALUE(result)
+		return STN_RETURN_NULL(result)
 	}
 
 	template<typename IntegralT> requires std::is_integral_v<IntegralT>
@@ -1776,10 +1776,10 @@ namespace stn //String to Num.
 
 		IntegralT TData;
 		const auto result = impl::Integer_from_chars(wsv.data(), wsv.data() + wsv.size(), TData, iBase);
-		if (result.ec == errc()) {
+		if (result) {
 			return TData;
 		}
-		return STN_RETURN_VALUE(result)
+		return STN_RETURN_NULL(result)
 	}
 
 	template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
@@ -1790,10 +1790,10 @@ namespace stn //String to Num.
 
 		FloatingT TData;
 		const auto result = impl::Floating_from_chars(sv.data(), sv.data() + sv.size(), TData, fmt);
-		if (result.ec == errc()) {
+		if (result) {
 			return TData;
 		}
-		return STN_RETURN_VALUE(result)
+		return STN_RETURN_NULL(result)
 	}
 
 	template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
@@ -1804,10 +1804,10 @@ namespace stn //String to Num.
 
 		FloatingT TData;
 		const auto result = impl::Floating_from_chars(wsv.data(), wsv.data() + wsv.size(), TData, fmt);
-		if (result.ec == errc()) {
+		if (result) {
 			return TData;
 		}
-		return STN_RETURN_VALUE(result)
+		return STN_RETURN_NULL(result)
 	}
 
 

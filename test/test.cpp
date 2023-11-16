@@ -1,8 +1,7 @@
-#include <iomanip>
-#include <iostream>
-
 //#define STN_USE_EXPECTED
 #include "../StrToNum/StrToNum.h"
+#include <iomanip>
+#include <iostream>
 
 int main()
 {
