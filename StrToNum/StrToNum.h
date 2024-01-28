@@ -1813,84 +1813,84 @@ namespace stn {
 
 	//Aliases with predefined types, for convenience.
 
-	[[nodiscard]] inline constexpr auto StrToChar(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(char, char) {
-		return StrToNum<char>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt8(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int8_t, char) {
+		return StrToNum<std::int8_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToChar(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(char, wchar_t) {
-		return StrToNum<char>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt8(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int8_t, wchar_t) {
+		return StrToNum<std::int8_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUChar(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned char, char) {
-		return StrToNum<unsigned char>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt8(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint8_t, char) {
+		return StrToNum<std::uint8_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUChar(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned char, wchar_t) {
-		return StrToNum<unsigned char>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt8(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint8_t, wchar_t) {
+		return StrToNum<std::uint8_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToShort(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(short, char) {
-		return StrToNum<short>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt16(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int16_t, char) {
+		return StrToNum<std::int16_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToShort(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(short, wchar_t) {
-		return StrToNum<short>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt16(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int16_t, wchar_t) {
+		return StrToNum<std::int16_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUShort(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned short, char) {
-		return StrToNum<unsigned short>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt16(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint16_t, char) {
+		return StrToNum<std::uint16_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUShort(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned short, wchar_t) {
-		return StrToNum<unsigned short>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt16(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint16_t, wchar_t) {
+		return StrToNum<std::uint16_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToInt(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(int, char) {
-		return StrToNum<int>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt32(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int32_t, char) {
+		return StrToNum<std::int32_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToInt(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(int, wchar_t) {
-		return StrToNum<int>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt32(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int32_t, wchar_t) {
+		return StrToNum<std::int32_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUInt(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned int, char) {
-		return StrToNum<unsigned int>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt32(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint32_t, char) {
+		return StrToNum<std::uint32_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToUInt(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned int, wchar_t) {
-		return StrToNum<unsigned int>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt32(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint32_t, wchar_t) {
+		return StrToNum<std::uint32_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToLL(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(long long, char) {
-		return StrToNum<long long>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt64(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int64_t, char) {
+		return StrToNum<std::int64_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToLL(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(long long, wchar_t) {
-		return StrToNum<long long>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToInt64(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::int64_t, wchar_t) {
+		return StrToNum<std::int64_t>(wsv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToULL(std::string_view sv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned long long, char) {
-		return StrToNum<unsigned long long>(sv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt64(std::string_view sv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint64_t, char) {
+		return StrToNum<std::uint64_t>(sv, iBase);
 	}
 
-	[[nodiscard]] inline constexpr auto StrToULL(std::wstring_view wsv, int iBase = 0)noexcept
-		->STN_RETURN_TYPE(unsigned long long, wchar_t) {
-		return StrToNum<unsigned long long>(wsv, iBase);
+	[[nodiscard]] inline constexpr auto StrToUInt64(std::wstring_view wsv, int iBase = 0)noexcept
+		->STN_RETURN_TYPE(std::uint64_t, wchar_t) {
+		return StrToNum<std::uint64_t>(wsv, iBase);
 	}
 
 	[[nodiscard]] inline constexpr auto StrToFloat(std::string_view sv, chars_format fmt = chars_format::general)noexcept

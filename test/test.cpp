@@ -8,23 +8,23 @@ int main()
 	constexpr auto str = "1234567890";
 	constexpr auto wstr = L"1234567890";
 
-	constexpr auto Int1 = stn::StrToInt(std::string_view(str).substr(0, 5));
+	constexpr auto Int1 = stn::StrToInt32(std::string_view(str).substr(0, 5));
 	static_assert(Int1 == 12345);
 	std::cout << "Int1 = " << Int1.value_or(-1) << "\n";
 
-	constexpr auto Int2 = stn::StrToInt(std::wstring_view(wstr).substr(5));
+	constexpr auto Int2 = stn::StrToInt32(std::wstring_view(wstr).substr(5));
 	static_assert(Int2 == 67890);
 	std::cout << "Int2 = " << Int2.value_or(-1) << "\n";
 
-	constexpr auto LL1 = stn::StrToLL("0xABCDEF");
+	constexpr auto LL1 = stn::StrToInt64("0xABCDEF");
 	static_assert(LL1 == 0xABCDEF);
 	std::cout << std::hex << "LL1 = " << LL1.value_or(-1) << "\n";
 
-	constexpr auto LL2 = stn::StrToLL(L"0xFEDCBA");
+	constexpr auto LL2 = stn::StrToInt64(L"0xFEDCBA");
 	static_assert(LL2 == 0xFEDCBA);
 	std::cout << std::hex << "LL2 = " << LL2.value_or(-1) << "\n";
 
-	constexpr auto LL3 = stn::StrToLL(L"-0xACE987");
+	constexpr auto LL3 = stn::StrToInt64(L"-0xACE987");
 	static_assert(LL3 == -0xACE987);
 	std::cout << std::dec << "LL3 = " << LL3.value_or(-1) << "\n";
 
