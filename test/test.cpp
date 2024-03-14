@@ -2,6 +2,9 @@
 #include "../StrToNum/StrToNum.h"
 #include <iomanip>
 #include <iostream>
+#include <optional>
+#include <string_view>
+//import StrToNum;
 
 int main()
 {

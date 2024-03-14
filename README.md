@@ -12,73 +12,72 @@
 
 The library also recognizes `0x` and `0X` prefixes as hex strings, when `iBase` is `0` or `16`, which `std::from_chars` doesn't.
 
-As a return type **StrToNum** uses either `std::optional` (by default) or a newish and very convenient `std::expected`, which either holds converted number or a `from_chars_result` struct in case of converting error. Both these types are very similar.  
-To use the `std::expected` version put the `#define STN_USE_EXPECTED` line before `#include "StrToNum.h"`
+As a return type **StrToNum** uses either `std::optional` (by default) or very convenient `std::expected` from c++23, which holds either a converted number or a `from_chars_result` struct in case of converting error. Both these types are very similar. To use the `std::expected` version use the `/DSTN_USE_EXPECTED` compiler flag.
 
 ```cpp
 template<typename IntegralT> requires std::is_integral_v<IntegralT>
 [[nodiscard]] constexpr auto StrToNum(std::string_view sv, int iBase = 0)noexcept
-->std::expected<IntegralT, from_chars_result<char>>
+->std::optional<IntegralT>
 ```
 ```cpp
 template<typename IntegralT> requires std::is_integral_v<IntegralT>
 [[nodiscard]] constexpr auto StrToNum(std::wstring_view wsv, int iBase = 0)noexcept
-->std::expected<IntegralT, from_chars_result<wchar_t>>
+->std::optional<IntegralT>
 ```
 ```cpp
 template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
 [[nodiscard]] constexpr auto StrToNum(std::string_view sv, chars_format fmt = chars_format::general)noexcept
-->std::expected<FloatingT, from_chars_result<char>>
+->std::optional<FloatingT>
 ```
 ```cpp
 template<typename FloatingT> requires std::is_floating_point_v<FloatingT>
 [[nodiscard]] constexpr auto StrToNum(std::wstring_view wsv, chars_format fmt = chars_format::general)noexcept
-->std::expected<FloatingT, from_chars_result<wchar_t>>
+->std::optional<FloatingT>
 ```
 
 Basically **StrToNum** is a thin wrapper over the `std::from_chars` machinery with the convenient interface and the ability to work with `wchar_t` strings. **Non-allocating, non-throwing, locale-independent**.
 
 ### Aliases
-`StrToNum` is the main templated method which is very easy to use. But there are also a predefined wrappers for convenience, for all integral and floating types:
+`StrToNum` is the main templated method which is very easy to use. But there are also predefined wrappers for convenience for all integral and floating types:
 ```cpp
 [[nodiscard]] inline constexpr auto StrToInt8(std::string_view sv, int iBase = 0)noexcept
-->std::expected<std::int8_t, from_chars_result<char>>;
+->std::optional<std::int8_t>;
 ```
 ```cpp		
 [[nodiscard]] inline constexpr auto StrToUInt8(std::string_view sv, int iBase = 0)noexcept
-->std::expected<std::uint8_t, from_chars_result<char>>;
+->std::optional<std::uint8_t>;
 ```
 ```cpp		
 [[nodiscard]] inline constexpr auto StrToInt16(std::string_view sv, int iBase = 0)noexcept
-->std::expected<short, from_chars_result<char>>;
+->std::optional<std::int16_t>;
 ```
 ```cpp		
 [[nodiscard]] inline constexpr auto StrToUInt16(std::string_view sv, int iBase = 0)noexcept
-->std::expected<unsigned short, from_chars_result<char>>;
+->std::optional<std::uint16_t>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToInt32(std::string_view sv, int iBase = 0)noexcept
-->std::expected<int, from_chars_result<char>>;
+->std::optional<std::int32_t>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToUInt32(std::string_view sv, int iBase = 0)noexcept
-->std::expected<unsigned int, from_chars_result<char>>;
+->std::optional<std::uint32_t>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToInt64(std::string_view sv, int iBase = 0)noexcept
-->std::expected<long long, from_chars_result<char>>;
+->std::optional<std::int64_t>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToUInt64(std::string_view sv, int iBase = 0)noexcept
-->std::expected<unsigned long long, from_chars_result<char>>;
+->std::optional<std::uint64_t>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToFloat(std::string_view sv, chars_format fmt = chars_format::general)noexcept
-->std::expected<float, from_chars_result<char>>;
+->std::optional<float>;
 ```
 ```cpp
 [[nodiscard]] inline constexpr auto StrToDouble(std::string_view sv, chars_format fmt = chars_format::general)noexcept
-->std::expected<double, from_chars_result<char>>;
+->std::optional<double>;
 ```
 
 ### Example
