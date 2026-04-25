@@ -1,10 +1,8 @@
-//#define STN_USE_EXPECTED
-#include "../StrToNum/StrToNum.h"
 #include <iomanip>
 #include <iostream>
 #include <optional>
 #include <string_view>
-//import StrToNum;
+import StrToNum;
 
 int main()
 {
